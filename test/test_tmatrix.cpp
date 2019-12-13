@@ -26,37 +26,24 @@ TEST(TMatrix, can_create_copied_matrix)
 
 TEST(TMatrix, copied_matrix_is_equal_to_source_one)
 {
-	TMatrix<int> A(3);
-	for (int i = 0; i < A.GetSize() - A.GetStartIndex(); i++) {
-		for (int j = 0; j < A.GetSize() - A.GetStartIndex() - i; j++) {
-			A[i][j] = 1;
-		}
-	}
+	TMatrix<int> A(1);
+	A[0][0] = 1;
 	TMatrix<int> A1(A);
 	EXPECT_EQ(A, A1);
 }
 
 TEST(TMatrix, copied_matrix_has_its_own_memory)
 {
-	TMatrix<int> A(3);
-	for (int i = 0; i < A.GetSize() - A.GetStartIndex(); i++) {
-		for (int j = 0; j < A.GetSize() - A.GetStartIndex() - i; j++) {
-			A[i][j] = 1;
-		}
-	}
+	TMatrix<int> A(1);
+	A[0][0] = 1;
 	TMatrix<int> A1(A);
-	A[1][1] = 0;
+	A[0][0] = 0;
 	EXPECT_NE(A, A1);
 }
 
 TEST(TMatrix, can_get_size)
 {
 	TMatrix<int> A(3);
-	for (int i = 0; i < A.GetSize() - A.GetStartIndex(); i++) {
-		for (int j = 0; j < A.GetSize() - A.GetStartIndex() - i; j++) {
-			A[i][j] = 1;
-		}
-	}
 	EXPECT_EQ(3, A.GetSize());
 }
 
@@ -100,11 +87,7 @@ TEST(TMatrix, can_assign_matrices_of_equal_size)
 TEST(TMatrix, assign_operator_change_matrix_size)
 {
 	TMatrix<int> A(1);
-	A[0][0] = 1;
 	TMatrix<int> A1(2);
-	A1[0][0] = 0;
-	A1[0][1] = 1;
-	A1[1][0] = 2;
 	A = A1;
 	EXPECT_EQ(2, A.GetSize());
 }
@@ -112,11 +95,7 @@ TEST(TMatrix, assign_operator_change_matrix_size)
 TEST(TMatrix, can_assign_matrices_of_different_size)
 {
 	TMatrix<int> A(1);
-	A[0][0] = 1;
 	TMatrix<int> A1(2);
-	A1[0][0] = 0;
-	A1[0][1] = 1;
-	A1[1][0] = 2;
 	A = A1;
 	EXPECT_EQ(A, A1);
 }
@@ -124,11 +103,7 @@ TEST(TMatrix, can_assign_matrices_of_different_size)
 TEST(TMatrix, compare_equal_matrices_return_true)
 {
 	TMatrix<int> A(1);
-	A[0][0] = 1;
 	TMatrix<int> A1(2);
-	A1[0][0] = 0;
-	A1[0][1] = 1;
-	A1[1][0] = 2;
 	A = A1;
 	EXPECT_EQ(1,A == A1);
 }
@@ -143,11 +118,7 @@ TEST(TMatrix, compare_matrix_with_itself_return_true)
 TEST(TMatrix, matrices_with_different_size_are_not_equal)
 {
 	TMatrix<int> A(1);
-	A[0][0] = 1;
 	TMatrix<int> A1(2);
-	A1[0][0] = 0;
-	A1[0][1] = 1;
-	A1[1][0] = 2;
 	EXPECT_EQ(0, A == A1);
 }
 
@@ -155,10 +126,13 @@ TEST(TMatrix, can_add_matrices_with_equal_size)
 {
 	TMatrix<int> A(1);
 	A[0][0] = 1;
+	cout << A << endl;
 	TMatrix<int> A1(1);
 	A1[0][0] = 2;
+	cout << A1 << endl;
 	TMatrix<int> res(1);
 	res[0][0] = 3;
+	cout << res << endl;
 	EXPECT_EQ(res, A + A1);
 }
 
@@ -170,7 +144,9 @@ TEST(TMatrix, cant_add_matrices_with_not_equal_size)
 	A1[0][0] = 0;
 	A1[0][1] = 1;
 	A1[1][0] = 2;
-	ASSERT_ANY_THROW(A = A + A1);
+	A1[1][1] = 3;
+	cout << A1 << endl;
+	ASSERT_ANY_THROW(A + A1);
 }
 
 TEST(TMatrix, can_subtract_matrices_with_equal_size)
